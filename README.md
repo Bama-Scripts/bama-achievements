@@ -79,4 +79,6 @@ Tony - For helping with a few small details
   - Discord: https://discord.gg/cKtyJFsQNS
 
 # OTHER STUFF
-If you have any questions please do not hesitate to ask. 
+If you have any questions please do not hesitate to ask.
+
+I will take all recommendations for the script into consideration and if you already have it done and would like to contribute to the script, then please create a PR and I will look at it and approve it. As well as, there will be a Snippets channel in the discor
