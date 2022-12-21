@@ -31,7 +31,7 @@ QBCore.Functions.CreateCallback('bama-achievements:server:GetPlayerZombieKills',
     if result ~= nil then
         cb(result)
     else
-        cb(false)
+        cb(nil)
     end
 end)
 

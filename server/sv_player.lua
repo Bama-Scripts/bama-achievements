@@ -35,10 +35,11 @@ QBCore.Functions.CreateCallback('bama-achievements:server:GetPlayerKD', function
     local Player = QBCore.Functions.GetPlayer(src)
     local license = QBCore.Functions.GetIdentifier(src, 'license')
     local result = MySQL.single.await('SELECT * FROM player_kd WHERE identifier = ?', {license})
+	print(QBCore.Debug(result))
     if result ~= nil then
         cb(result)
     else
-        cb(false)
+        cb(nil)
     end
 end)
 
