@@ -1,4 +1,3 @@
-QBCore = exports['qb-core']:GetCoreObject()
 Config = {}
 Config.Debug = false                -- Will be implemented for debugging issues
 Config.UseWebhook = true            -- If Config.UseWebhook = true then Create "achievements" webhook in qb-smallresources/server/logs.lua then paste the webhook there.
@@ -200,5 +199,4 @@ Config.Achievements = {         -- DO NOT TOUCH USE CONFIG.USEXACHIEVEMENT ABOVE
     Item,
     Player,
     Zombie,
-    Secert,
 }

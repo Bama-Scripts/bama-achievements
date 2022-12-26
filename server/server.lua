@@ -6,25 +6,26 @@ RegisterNetEvent('bama-achievements:server:UnlockAchievement', function (data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local license = QBCore.Functions.GetIdentifier(src, 'license')
+    local item = Player.Functions.GetItemByName(Config.Achievements[data.id][data.achievement].item)
+    local configitem = Config.Achievements[data.id][data.achievement].item
+    local itemamount = Config.Achievements[data.id][data.achievement].amount
+    local reward = Config.Achievements[data.id][data.achievement].reward
+    local rewardtype = Config.Achievements[data.id][data.achievement].rewardtype
+    local discord = "<@"..QBCore.Functions.GetIdentifier(src, 'discord'):gsub("discord:", "")..">"
+    local charname = Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
     local result = MySQL.single.await('SELECT * FROM achievements WHERE license = ? AND achievement = ?', {license, data.achievement})
     if result ~= nil then
         TriggerClientEvent('QBCore:Notify', src, 'Achievement Has Already Been Unlocked', 'warning')
     else
-        local discord = "<@"..QBCore.Functions.GetIdentifier(src, 'discord'):gsub("discord:", "")..">"
-        local charname = Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
-        MySQL.insert('INSERT INTO achievements (`license`, `citizenid`, `achievement`, `unlocked`) VALUES (?, ?, ?, ?)', {
-            license,
-            Player.PlayerData.citizenid,
-            data.achievement,
-            1,
-        })
-
+        if Player then
+            MySQL.insert('INSERT INTO achievements (`license`, `citizenid`, `achievement`, `unlocked`) VALUES (?, ?, ?, ?)', {
+                license,
+                Player.PlayerData.citizenid,
+                data.achievement,
+                1,
+            })
+        end
         if data.Item ~= nil then
-            local item = Player.Functions.GetItemByName(Config.Achievements[data.id][data.achievement].item)
-            local configitem = Config.Achievements[data.id][data.achievement].item
-            local itemamount = Config.Achievements[data.id][data.achievement].amount
-            local rewardtype = Config.Achievements[data.id][data.achievement].rewardtype
-            local reward = Config.Achievements[data.id][data.achievement].reward
             if not Config.AllowPlayerExchange then
                 if item.info.achievement then
                     TriggerClientEvent('QBCore:Notify', src, 'Item has already been used for claiming achievement. Try finding them on your own.', 'warning')
@@ -83,17 +84,6 @@ QBCore.Functions.CreateCallback('bama-achievements:server:IsAchievementUnlocked'
         cb(result[1])
     else
         cb(false)
-    end
-end)
-
-
-QBCore.Functions.CreateCallback('bama-achievements:server:GetPlayerItemAmount', function (source, cb, item)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local getitems = Player.Functions.GetItemsByName(item)
-    local ItemList = {}
-    if getitems[1] ~= nil then
-        cb(getitems[1])
     end
 end)
 
